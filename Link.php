@@ -25,7 +25,7 @@ trait link
         }
         if ($test) {
             foreach ($links as $link) {
-                dump('test:' . $link->getAttribute('href'));
+                dump('test:' . $link->getAttribute('href') . '|' .  str_replace(["\n", "\t"], "", $link->nodeValue));
                 $B->visit($link->getAttribute('href'))->assertStatus(200);
             }
         } else {
