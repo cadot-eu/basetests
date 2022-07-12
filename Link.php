@@ -6,7 +6,7 @@ namespace App\Tests\basetests;
 
 trait link
 {
-    function returnAllLinks($B, $start, $descent = -1, $links = [])
+    function returnAllLinks($B, $start, $test = true, $descent = -1, $links = [])
     {
         $exlinks = $links;
         $crawler = $B->visit($start)->crawler();
@@ -23,10 +23,13 @@ trait link
                 }
             }
         }
-        return $links;
-    }
-    public function testLinksByAttr($B, $start, $descent = 0)
-    {
-        dd($this->returnAllLinks($B, $start, $descent));
+        if ($test) {
+            foreach ($links as $link) {
+                dump('test:' . $link->getAttribute('href'));
+                $B->visit($link->getAttribute('href'))->assertStatus(200);
+            }
+        } else {
+            return $links;
+        }
     }
 }
