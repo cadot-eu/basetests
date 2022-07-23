@@ -6,6 +6,17 @@ use Faker\Factory;
 
 trait Form
 {
+    /**
+     * It fills a form with random data, and then clicks the submit button
+     * 
+     * @param B the browser object
+     * @param url the url of the page you want to test
+     * @param erreurCaptcha if true, the captcha will be filled with the wrong value.
+     * @param champEmailVrai if you want to fill the email field with a real email address, pass it
+     * here.
+     * 
+     * @return The return value of the last statement executed in the function.
+     */
     public function remplisFormulaire($B, $url, $erreurCaptcha = false, $champEmailVrai = false)
     {
         $faker = Factory::create('fr_FR');
