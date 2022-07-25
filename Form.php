@@ -30,11 +30,19 @@ trait Form
             $node = $crawler->selectButton($nom)->getNode(0);
             if ($node) {
                 $type = $node->getAttribute('type');
+                dump($nom);
                 switch ($type) {
                     case 'text':
                         switch (true) {
                             case $this->strInArray($nom, ['nom', 'name']):
                                 $visit->fillField($nom, $faker->name());
+                                break;
+                            case $this->strInArray($nom, ['email', 'mail']):
+                                if ($champEmailVrai) {
+                                    $visit->fillField($nom, $champEmailVrai);
+                                } else {
+                                    $visit->fillField($nom, $faker->safeEmail());
+                                }
                                 break;
                             case 'captcha':
                                 if ($erreurCaptcha) {
@@ -78,7 +86,13 @@ trait Form
             if (strpos($string, $sub) !== false) {
                 return true;
             }
+            //test sur []
+            preg_match('#\[(.*?)\]#', $string, $match);
+            if (isset($match[1]) && $match[1] == $sub) {
+                return true;
+            }
         }
+
         return false;
     }
 }
