@@ -30,7 +30,6 @@ trait Form
             $node = $crawler->selectButton($nom)->getNode(0);
             if ($node) {
                 $type = $node->getAttribute('type');
-                dump($nom);
                 switch ($type) {
                     case 'text':
                         switch (true) {
