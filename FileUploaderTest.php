@@ -13,14 +13,6 @@ class FileUploaderTest extends KernelTestCase
 
         $this->assertSame('test', $kernel->getEnvironment());
         $encode = FileUploader::encodeFilename('image de l\'araignée.jpg');
-        $this->assertSame('image de l\'araignée.jpg', FileUploader::decodeFilename($encode));
-    }
-    public function testEncodeDecodeFilenameWithUniqid(): void
-    {
-        $kernel = self::bootKernel();
-
-        $this->assertSame('test', $kernel->getEnvironment());
-        $encode = FileUploader::encodeFilename('image de l\'araignée.jpg');
-        $this->assertSame('image de l\'araignée-' . explode('-', $encode)[1], FileUploader::decodeFilename($encode, false));
+        $this->assertSame('image-de-laraignee.jpg', FileUploader::decodeFilename($encode));
     }
 }
