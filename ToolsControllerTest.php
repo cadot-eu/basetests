@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Factory\CompteFactory;
+use App\Service\base\FileHelper;
 use App\Service\base\FileUploader;
 use App\Service\base\TestHelper;
 use App\Tests\basetests\Link;
@@ -33,7 +34,7 @@ class ToolsControllerTest extends PantherTestCase
 
     public function test_upload_without_get_file(): void
     {
-        $file = new \Symfony\Component\HttpFoundation\File\UploadedFile('/app/tests/basetests/assets/image.png', 'test.jpg', 'image/jpeg', null, true);
+        $file = new \Symfony\Component\HttpFoundation\File\UploadedFile('/app/tests/assets/image.png', 'test.jpg', 'image/jpeg', null, true);
         $name = 'upload';
         $filter = null;
         $this->Browser()->post('/upload/' . $name, [], [])
@@ -41,7 +42,7 @@ class ToolsControllerTest extends PantherTestCase
     }
     public function test_upload_without_filter(): void
     {
-        copy('/app/tests/basetests/assets/image.png', '/app/public/uploads/test.jpg');
+        copy('/app/tests/basetests/assets/image.jpg', '/app/public/uploads/test.jpg');
         $client = static::createClient();
         $file = new \Symfony\Component\HttpFoundation\File\UploadedFile('/app/public/uploads/test.jpg', 'test.jpg', 'image/jpeg', null, true);
         $uniqid = uniqid();
@@ -51,11 +52,11 @@ class ToolsControllerTest extends PantherTestCase
         $retour = json_decode($client->getResponse()->getContent(), true)['url'];
         $retour_sans_id = FileUploader::decodeFilename($retour);
         $this->assertSame($retour_sans_id, '/uploads/upload' . $uniqid . '/test.jpg');
-        //la présence réelle du fichier est vérifié par fileuploader
+        FileHelper::deleteDirectory_notempty('/app/public/uploads/upload' . $uniqid);
     }
     public function test_upload_with_filter(): void
     {
-        copy('/app/tests/basetests/assets/image.png', '/app/public/uploads/test.jpg');
+        copy('/app/tests/basetests/assets/image.jpg', '/app/public/uploads/test.jpg');
         $client = static::createClient();
         $uniqid = uniqid();
         $file = new \Symfony\Component\HttpFoundation\File\UploadedFile('/app/public/uploads/test.jpg', 'test.jpg', 'image/jpeg', null, true);
@@ -65,6 +66,22 @@ class ToolsControllerTest extends PantherTestCase
         $retour = json_decode($client->getResponse()->getContent(), true)['url'];
         $retour_sans_id = FileUploader::decodeFilename($retour);
         $this->assertSame($retour_sans_id, '/uploads/upload' . $uniqid . '/test-moyen.jpg');
-        //la présence réelle du fichier est vérifié par fileuploader
+        FileHelper::deleteDirectory_notempty('/app/public/uploads/upload' . $uniqid);
+    }
+    public function test_simplegallery(): void
+    {
+        copy('/app/tests/basetests/assets/image.jpg', '/app/public/uploads/test.jpg');
+        $client = static::createClient();
+        $uniqid = uniqid();
+        $file = new \Symfony\Component\HttpFoundation\File\UploadedFile('/app/public/uploads/test.jpg', 'test.jpg', 'image/jpeg', null, true);
+        $client->request('POST', '/simplegallery/upload' . $uniqid, [], [
+            'upload' => $file
+        ]);
+        $retour = json_decode($client->getResponse()->getContent(), true)['urls'];
+        foreach ($retour as $key => $value) {
+            $retour_sans_id = explode('/uploads/', FileUploader::decodeFilename($value))[1];
+            $this->assertSame($retour_sans_id, 'upload' . $uniqid . '/test.jpg');
+        }
+        FileHelper::deleteDirectory_notempty('/app/public/uploads/upload' . $uniqid);
     }
 }
