@@ -44,7 +44,7 @@ class ToolsControllerTest extends PantherTestCase
         ]);
         $retour = json_decode($client->getResponse()->getContent(), true)['url'];
         $retour_sans_id = FileUploader::decodeFilename($retour);
-        $this->assertSame($retour_sans_id, '/uploads/upload' . $uniqid . '/test.jpg');
+        $this->assertSame($retour_sans_id, '/xxxxuploads/upload' . $uniqid . '/test.jpg');
         FileHelper::deleteDirectory_notempty('/app/public/uploads/upload' . $uniqid);
     }
     /**
