@@ -32,14 +32,7 @@ class ToolsControllerTest extends PantherTestCase
 
 
 
-    public function test_upload_without_get_file(): void
-    {
-        $file = new \Symfony\Component\HttpFoundation\File\UploadedFile('/app/tests/assets/image.png', 'test.jpg', 'image/jpeg', null, true);
-        $name = 'upload';
-        $filter = null;
-        $this->Browser()->post('/upload/' . $name, [], [])
-            ->assertJsonMatches('error', 'not get file');
-    }
+
     public function test_upload_without_filter(): void
     {
         copy('/app/tests/basetests/assets/image.jpg', '/app/public/uploads/test.jpg');
@@ -54,6 +47,11 @@ class ToolsControllerTest extends PantherTestCase
         $this->assertSame($retour_sans_id, '/uploads/upload' . $uniqid . '/test.jpg');
         FileHelper::deleteDirectory_notempty('/app/public/uploads/upload' . $uniqid);
     }
+    /**
+     * test_upload_with_filter
+     *
+     * @return void
+     */
     public function test_upload_with_filter(): void
     {
         copy('/app/tests/basetests/assets/image.jpg', '/app/public/uploads/test.jpg');
