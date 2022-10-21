@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\basetests;
 
 use PHPUnit\Framework\TestCase;
 use Zenstruck\Browser\Test\HasBrowser;
