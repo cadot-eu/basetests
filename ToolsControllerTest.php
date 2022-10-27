@@ -77,6 +77,8 @@ class ToolsControllerTest extends PantherTestCase
         ]);
         $retour = json_decode($client->getResponse()->getContent(), true)['urls'];
         foreach ($retour as $key => $value) {
+            //on contrôle que l'on a bien un https
+            $this->assertSame(substr($value, 0, 5), 'https');
             $retour_sans_id = explode('/uploads/', FileUploader::decodeFilename($value))[1];
             $this->assertSame($retour_sans_id, 'upload' . $uniqid . '/test.jpg');
         }
