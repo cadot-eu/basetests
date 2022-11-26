@@ -5,7 +5,7 @@ namespace App\Tests\basetests;
 use PHPUnit\Framework\TestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Factory\CompteFactory;
+use App\Factory\UserFactory;
 use App\Service\base\FileHelper;
 use App\Service\base\FileUploader;
 use App\Service\base\TestHelper;
