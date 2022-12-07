@@ -1,4 +1,7 @@
 {
+"d0185e0":{  "subject": "maj vers php 8.1.2 et update de composer",
+  "date": "Sat, 26 Nov 2022 08:41:23 +0100"
+ },
 "270780b":{  "subject": "add test email send",
   "date": "Fri, 18 Nov 2022 10:03:40 +0100"
  },
