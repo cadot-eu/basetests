@@ -35,9 +35,9 @@ class MailTest extends WebTestCase
     public function testMailIsSentAndContentIsOk()
     {
 
-        $client = $this->createClient();
-        $client->request('GET', '/testmail/contact@picbleu.fr');
-        $this->assertResponseIsSuccessful();
+        //$client = $this->createClient();
+        //$client->request('GET', '/testmail/contact@picbleu.fr');
+        //$this->assertResponseIsSuccessful();
 
         // $this->assertEmailCount(1);
 
