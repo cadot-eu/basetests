@@ -36,7 +36,7 @@ class MailTest extends WebTestCase
     {
 
         //$client = $this->createClient();
-        //$client->request('GET', '/testmail/contact@picbleu.fr');
+        //$client->request('GET', '/testmail/contact@test.fr');
         //$this->assertResponseIsSuccessful();
 
         // $this->assertEmailCount(1);
