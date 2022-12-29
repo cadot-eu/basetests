@@ -21,5 +21,22 @@ class VisiteurTest extends PantherTestCase
             ->assertXml()
         ;
     }
+
+    public function testArtisandontexist(): void
+    {
+        $this->Browser()
+            ->visit('/artisan/qsuinexistepas')
+            ->assertSeeIn('title', 'Moteur de recherche sur les entreprises sélectionnées par Picbleu')
+        ;
+    }
+    public function testArtisanexist(): void
+    {
+        $entrepriseRepository = $this->getContainer()->get('App\Repository\EntrepriseRepository');
+        $entreprise = $entrepriseRepository->findBy(['deletedAt' => null, 'etat' => 'en ligne']);
+        $this->Browser()
+            ->visit('/artisan/'.$entreprise[0]->getSlug())
+            ->assertSeeIn('title', 'Entreprise '.$entreprise[0]->getNom().' sélectionnée par Picbleu')
+        ;
+    }
  
 }
