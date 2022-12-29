@@ -38,5 +38,13 @@ class VisiteurTest extends PantherTestCase
             ->assertSeeIn('title', 'Entreprise '.$entreprise[0]->getNom().' sélectionnée par Picbleu')
         ;
     }
+    
+    public function testrediectionForum(): void
+    {
+        $this->Browser()
+            ->visit('/forum-questions/tests')
+            ->assertSeeIn('title', 'Moteur de recherche sur les questions posées à Picbleu')
+        ;
+    }
  
 }
