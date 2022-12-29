@@ -17,9 +17,9 @@ trait Form
      * 
      * @return The return value of the last statement executed in the function.
      */
-    public function remplisFormulaire($B, $url, $erreurCaptcha = false, $champEmailVrai = false)
+    public function remplisFormulaire($B, $url, $erreurCaptcha = false, $champEmailVrai = false, $language = 'fr_FR')
     {
-        $faker = Factory::create('fr_FR');
+        $faker = Factory::create($language);
         $visit = $B->visit($url);
         $crawler = $visit->crawler();
         $form = $crawler->selectButton('bouton_submit')->form();
