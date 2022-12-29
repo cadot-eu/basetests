@@ -46,5 +46,12 @@ class VisiteurTest extends PantherTestCase
             ->assertSeeIn('title', 'Moteur de recherche sur les questions posées à Picbleu')
         ;
     }
- 
+    
+    public function testredirectioncontactdevis(): void
+    {
+        $this->Browser()
+            ->visit('contact-devis')
+            ->assertSeeIn('title', 'Formulaire de contact')
+        ;
+    }
 }
