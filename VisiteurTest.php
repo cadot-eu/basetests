@@ -39,14 +39,20 @@ class VisiteurTest extends PantherTestCase
         ;
     }
     
-    public function testrediectionForum(): void
+    public function testredirectionForum(): void
     {
         $this->Browser()
             ->visit('/forum-questions/tests')
             ->assertSeeIn('title', 'Moteur de recherche sur les questions posées à Picbleu')
         ;
     }
-    
+    public function testredirectionForumSujet(): void
+    {
+        $this->Browser()
+            ->visit('/forum-questions/sujet/tests')
+            ->assertSeeIn('title', 'Moteur de recherche sur les questions posées à Picbleu')
+        ;
+    }
     public function testredirectioncontactdevis(): void
     {
         $this->Browser()
