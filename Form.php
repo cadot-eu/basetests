@@ -3,6 +3,8 @@
 namespace App\Tests\basetests;
 
 use Faker\Factory;
+use Zenstruck\Mailer\Test\Bridge\Zenstruck\Browser\MailerComponent;
+use Zenstruck\Mailer\Test\TestEmail;
 
 trait Form
 {
@@ -17,15 +19,16 @@ trait Form
      * 
      * @return The return value of the last statement executed in the function.
      */
-    public function remplisFormulaire($B, $url, $erreurCaptcha = false, $champEmailVrai = false, $language = 'fr_FR')
+    public function remplisFormulaire($B, $url, $erreurCaptcha = false, $champEmailVrai = false, $language = 'fr_FR',$addchamps=[])
     {
+        $language = $language ?? 'fr_FR';
         $faker = Factory::create($language);
         $visit = $B->visit($url);
         $crawler = $visit->crawler();
         $form = $crawler->selectButton('bouton_submit')->form();
         $champs = $form->getValues();
+        $champs = array_merge($champs,$addchamps);
         foreach ($champs as $nom => $value) {
-
             /** @var DOMElement $node */
             $node = $crawler->selectButton($nom)->getNode(0);
             if ($node) {
@@ -65,18 +68,25 @@ trait Form
                             $visit->fillField($nom, $faker->safeEmail());
                         }
                         break;
+                    case 'tel':
+                        $visit->fillField($nom, '0132652545');//+33..
+                        break;
                     case 'inconnu':
                     case 'hidden':
                         break;
+                        case 'checkbox':
+                            $visit->checkField($nom);
+                            break;
                     default:
-                        dd("type de champ ($type)inconnu à ajouter dans le switch");
+                        dd("type de champ '$type' inconnu à ajouter dans le switch");
                         break;
                 }
             } else { //pour les textareas
                 $visit->fillField($nom, $faker->realText(50));
             }
         }
-        return $visit->click('bouton_submit'); //verify 200
+        dd($visit->clickAndIntercept('bouton_submit')->profile()->getCollector('db'));
+        ; //verify 200
     }
 
     public function strInArray($string, $arrayOfSubstring)
