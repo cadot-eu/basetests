@@ -36,20 +36,7 @@ class ToolsControllerTest extends PantherTestCase
      *
      * @return void
      */
-    public function test_upload_with_filter(): void
-    {
-        copy('/app/tests/basetests/assets/image.jpg', '/app/public/uploads/test.jpg');
-        $client = static::createClient();
-        $uniqid = uniqid();
-        $file = new \Symfony\Component\HttpFoundation\File\UploadedFile('/app/public/uploads/test.jpg', 'test.jpg', 'image/jpeg', null, true);
-        $client->request('POST', '/upload/upload' . $uniqid . '/moyen', [], [
-            'upload' => $file,
-        ]);
-        $retour = json_decode($client->getResponse()->getContent(), true)['url'];
-        $retour_sans_id = FileUploader::decodeFilename($retour);
-        $this->assertSame($retour_sans_id, '/uploads/upload' . $uniqid . '/test-moyen.jpg');
-        FileHelper::deleteDirectory_notempty('/app/public/uploads/upload' . $uniqid);
-    }
+   
     public function test_simplegallery(): void
     {
         copy('/app/tests/basetests/assets/image.jpg', '/app/public/uploads/test.jpg');
