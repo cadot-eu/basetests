@@ -8,6 +8,10 @@ use Zenstruck\Mailer\Test\TestEmail;
 
 trait Form
 {
+    private RouterInterface $router;
+
+   
+    
     /**
      * It fills a form with random data, and then clicks the submit button
      * 
@@ -26,6 +30,7 @@ trait Form
         $visit = $B->visit($url);
         $crawler = $visit->crawler();
         $form = $crawler->selectButton('bouton_submit')->form();
+        dd($form);
         $champs = $form->getValues();
         $champs = array_merge($champs,$addchamps);
         foreach ($champs as $nom => $value) {
