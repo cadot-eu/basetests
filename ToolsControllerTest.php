@@ -19,6 +19,7 @@ class ToolsControllerTest extends PantherTestCase
 
     public function test_upload_without_filter(): void
     {
+        @mkdir('/app/public/uploads/upload' . uniqid(), 0777, true);
         copy('/app/tests/basetests/assets/image.jpg', '/app/public/uploads/test.jpg');
         $client = static::createClient();
         $file = new \Symfony\Component\HttpFoundation\File\UploadedFile('/app/public/uploads/test.jpg', 'test.jpg', 'image/jpeg', null, true);
