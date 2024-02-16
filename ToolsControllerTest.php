@@ -27,6 +27,7 @@ class ToolsControllerTest extends PantherTestCase
         $client->request('POST', '/upload/upload' . $uniqid, [], [
             'upload' => $file,
         ]);
+        dump($client->getResponse()->getContent());
         $retour = json_decode($client->getResponse()->getContent(), true)['url'];
         $retour_sans_id = FileUploader::decodeFilename($retour);
         $this->assertSame($retour_sans_id, '/uploads/upload' . $uniqid . '/test.jpg');
